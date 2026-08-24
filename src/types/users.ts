@@ -1,3 +1,6 @@
+import type { BookOut } from "./books";
+import type { ReviewOut } from "./reviews";
+
 // --- Users ---
 export interface UserOut {
   uid: string; // uuid serialized as string
@@ -24,6 +27,11 @@ export interface UserCreate {
   password: string;
 }
 
+export interface UserLogin {
+  email: string;
+  password: string;
+}
+
 export interface LoginResponse {
   message: string;
   access_token: string;
@@ -36,4 +44,18 @@ export interface LoginResponse {
 
 export interface RefreshResponse {
   access_token: string;
+}
+
+export interface UserDetailOut extends UserOut {
+  books: BookOut[];
+  reviews: ReviewOut[];
+}
+
+export interface PasswordResetRequest {
+  email: string;
+}
+
+export interface PasswordResetConfirm {
+  new_password: string;
+  confirm_new_password: string;
 }

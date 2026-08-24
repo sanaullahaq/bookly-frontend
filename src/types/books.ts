@@ -1,4 +1,4 @@
-import type { Review } from "./reviews";
+import type { ReviewOut } from "./reviews";
 import type { TagOut } from "./tags";
 
 // --- Books ---
@@ -33,6 +33,6 @@ export interface BookOut extends BookBase {
 }
 
 export interface BookDetailOut extends BookOut {
-  reviews: Review[];
+  reviews: ReviewOut[];
   tags: TagOut[];
 }

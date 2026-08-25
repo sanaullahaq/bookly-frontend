@@ -1,4 +1,4 @@
-import { parseApiError } from "../lib/error";
+import { parseApiError } from "../lib/errors";
 
 export default function ErrorMessage({ error }: { error: unknown }) {
   const { message, resolution } = parseApiError(error);

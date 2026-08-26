@@ -3,7 +3,6 @@ import type {
   UserCreateResponse,
   UserCreate,
   LoginResponse,
-  RefreshResponse,
   UserDetailOut,
   PasswordResetRequest,
   PasswordResetConfirm,

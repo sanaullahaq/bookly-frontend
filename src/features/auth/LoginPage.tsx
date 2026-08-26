@@ -130,6 +130,7 @@ export default function LoginPage() {
             type="submit"
             disabled={mutation.isPending}
             aria-busy={mutation.isPending}
+            // aria-busy={mutation.isPending} tells assistive technology that this element is currently in the middle of an update/loading state, so screen readers can avoid announcing its contents prematurely while it's changing.
             className="w-full rounded-md bg-purple-600 py-2 text-sm font-semibold text-white hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {mutation.isPending ? "Signing in..." : "Log in"}
@@ -138,7 +139,7 @@ export default function LoginPage() {
 
         <div className="mt-4 flex justify-between text-sm">
           <Link
-            to="/forget-password"
+            to="/forgot-password"
             className="text-purple-600 hover:underline"
           >
             Forgot password?

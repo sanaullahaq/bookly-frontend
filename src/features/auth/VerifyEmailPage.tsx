@@ -6,7 +6,25 @@ import ErrorMessage from "../../components/ErrorMessage";
 
 export default function VerifyEmailPage() {
   const { token } = useParams<{ token: string }>();
+  /**
+  * 1. React Router can't infer params from your router config. TypeScript has no way to look at router.tsx and know that verify/:token defines a token param. Without the generic, useParams() returns { [key: string]: string | undefined } — a generic dictionary where every key is optional. With <{ token: string }>, you're explicitly telling TypeScript "this route has a param called token, and it's a string."
+  * 2. It makes the rest of the code type-safe. Without it:
+  * const { token } = useParams();
+  * // token: string | undefined
+  * 
+  * // Every usage becomes a type error:
+  * verifyEmail(token);   // ❌ Argument of type 'string | undefined' is not assignable to parameter of type 'string'
+  * With it:
+  * const { token } = useParams<{ token: string }>();
+  * // token: string | undefined  (still optional! TypeScript knows route params can be absent)
+  * 
+  * // Still needs non-null assertion because the generic doesn't make it required:
+  * verifyEmail(token!);  // ✅ you assert it exists
+  * The <{ token: string }> generic doesn't remove undefined — it just gives the param a name and a type. The param is still optional because TypeScript correctly reasons that someone could navigate to /verify without a token. The enabled: !!token guard + token! assertion are what close the gap at runtime.
+  * This is a known limitation in React Router v7 — type-safe routing from the router definition isn't built in. Libraries like TanStack Router solve this by making the router itself carry type information, but that requires a different architecture.
+  * */ 
 
+  
   // useQuery auto-fires on mount — no user action needed.
   // enabled: !!token guards against /verify without a token param.
   // retry: false — a bad/expired token will always fail, no point retrying.

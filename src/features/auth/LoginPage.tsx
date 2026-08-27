@@ -5,7 +5,7 @@ import { getCurrentUser, login } from "./api";
 import { useAuthStore } from "./authStore";
 import ErrorMessage from "../../components/ErrorMessage";
 import { Eye, EyeOff } from "lucide-react";
-import type { UserOut } from "../../types/users";
+import type { UserLogin, UserOut } from "../../types/users";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -22,13 +22,7 @@ export default function LoginPage() {
 
   // define the mutation
   const mutation = useMutation({
-    mutationFn: async ({
-      email,
-      password,
-    }: {
-      email: string;
-      password: string;
-    }) => {
+    mutationFn: async ({ email, password }: UserLogin) => {
       // 1) authenticate -> tokens
       const { data } = await login({ email, password });
 

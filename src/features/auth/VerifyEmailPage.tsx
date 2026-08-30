@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import { verifyEmail } from "./api";
-import { CheckCircle2, Loader2, XCircle } from "lucide-react";
+import { CheckCircle2, XCircle } from "lucide-react";
 import ErrorMessage from "../../components/ErrorMessage";
+import Loading from "../../components/Loading";
 
 export default function VerifyEmailPage() {
   const { token } = useParams<{ token: string }>();
@@ -46,10 +47,11 @@ export default function VerifyEmailPage() {
         {/* --- Loading state --- */}
         {isLoading && (
           <>
-            <Loader2
+            {/* <Loader2
               size={48}
               className="mx-auto animate-spin text-purple-600"
-            />
+            /> */}
+            <Loading />
             <h1 className="mb-2 mt-4 text-2xl font-semibold text-gray-900">
               Verifying your email…
             </h1>

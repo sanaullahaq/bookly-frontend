@@ -32,7 +32,10 @@ export default function SignupPage() {
   );
 
   const mutation = useMutation({
-    mutationFn: (data: UserCreate) => signup(data),
+    mutationFn: async (userCreate: UserCreate) => {
+      const { data } = await signup(userCreate);
+      return data;
+    },
   });
 
   useEffect(() => {
@@ -139,8 +142,7 @@ export default function SignupPage() {
             Account created!
           </h1>
           <p className="text-sm text-gray-600">
-            {mutation.data?.data.message} Please check your inbox (and spam
-            folder).
+            {mutation.data?.message} Please check your inbox (and spam folder).
           </p>
           <p className="mt-2 text-sm text-gray-500">
             Redirecting to login in {Math.max(secondsLeft, 0)}s…

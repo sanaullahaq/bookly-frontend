@@ -64,7 +64,7 @@ export default function ResetAccountPassword() {
         </h1>
 
         {mutation.isError && (
-          <div className="mb-4">
+          <div className="mb-4 text-center">
             <ErrorMessage error={mutation.error} />
           </div>
         )}

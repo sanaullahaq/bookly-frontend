@@ -1,7 +1,7 @@
-import { Outlet } from "react-router-dom";
+import Layout from "./components/Layout";
 
 export default function App() {
-  return <Outlet />;
+  return <Layout />;
 }
 
-// <Outlet /> is the placeholder where the matched child route is rendered.
+// <Outlet /> is the placeholder where the matched child route is rendered. Now it lives inside <Layout />

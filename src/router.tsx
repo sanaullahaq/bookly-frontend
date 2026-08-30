@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
       { path: "login", element: <LoginPage /> },
       { path: "signup", element: <SignupPage /> },
       { path: "/api/v1/auth/verify/:token", element: <VerifyEmailPage /> },
-      { path: "forgot-password", element: <PasswordResetRequestPage /> },
+      { path: "password-reset-request", element: <PasswordResetRequestPage /> },
     ],
   },
 ]);

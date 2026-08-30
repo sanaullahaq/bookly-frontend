@@ -133,7 +133,7 @@ export default function LoginPage() {
 
         <div className="mt-4 flex justify-between text-sm">
           <Link
-            to="/forgot-password"
+            to="/password-reset-request"
             className="text-purple-600 hover:underline"
           >
             Forgot password?

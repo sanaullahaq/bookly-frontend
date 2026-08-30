@@ -3,6 +3,7 @@ import App from "./App";
 import LoginPage from "./features/auth/LoginPage";
 import SignupPage from "./features/auth/SignupPage";
 import VerifyEmailPage from "./features/auth/VerifyEmailPage";
+import ForgotPasswordPage from "./features/auth/ForgotPasswordPage";
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
       { path: "login", element: <LoginPage /> },
       { path: "signup", element: <SignupPage /> },
       { path: "/api/v1/auth/verify/:token", element: <VerifyEmailPage /> },
+      { path: "forgot-password", element: <ForgotPasswordPage /> },
     ],
   },
 ]);

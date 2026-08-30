@@ -3,7 +3,7 @@ import App from "./App";
 import LoginPage from "./features/auth/LoginPage";
 import SignupPage from "./features/auth/SignupPage";
 import VerifyEmailPage from "./features/auth/VerifyEmailPage";
-import ForgotPasswordPage from "./features/auth/ForgotPasswordPage";
+import ForgotPasswordPage from "./features/auth/PasswordResetRequestPage";
 
 export const router = createBrowserRouter([
   {

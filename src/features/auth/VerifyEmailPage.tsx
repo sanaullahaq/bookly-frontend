@@ -77,7 +77,7 @@ export default function VerifyEmailPage() {
         {/* --- Error state --- */}
         {!isLoading && isError && (
           <>
-            {console.log(isError)}
+            {/* {console.log(isError)} */}
             <XCircle size={48} className="mx-auto text-red-600" />
             <h1 className="mb-2 mt-4 text-2xl font-semibold text-gray-900">
               Verification failed

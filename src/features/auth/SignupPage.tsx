@@ -26,7 +26,7 @@ export default function SignupPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState(initialForm);
   const [showPassword, setShowPassword] = useState(false);
-  const [confirmError, setConfirmError] = useState<string | null>(null);
+  const [passwordMisMatchError, setPasswordMisMatchError] = useState<string | null>(null);
   const [secondsLeft, setSecondsLeft] = useState(
     SECONDS_BEFORE_REDIRECT_TO_LOGIN,
   );
@@ -117,10 +117,10 @@ export default function SignupPage() {
     e.preventDefault();
 
     if (form.password != form.confirm_password) {
-      setConfirmError("Passwords do not match");
+      setPasswordMisMatchError("Passwords do not match");
       return;
     }
-    setConfirmError(null);
+    setPasswordMisMatchError(null);
     // Explicit field map -> exact UserCreate shape; confirm password never sent
     const data: UserCreate = {
       first_name: form.first_name,
@@ -299,17 +299,17 @@ export default function SignupPage() {
               minLength={6}
               autoComplete="new-password"
               value={form.confirm_password}
-              aria-invalid={!!confirmError}
+              aria-invalid={!!passwordMisMatchError}
               // aria-invalid={!!confirmError} marks the input as invalid for assistive technology (screen readers) when there's a validation error — let's break down both parts.
               onChange={(e) => {
                 update("confirm_password")(e);
-                setConfirmError(null); // clear error as soon as user retypes
+                setPasswordMisMatchError(null); // clear error as soon as user retypes
               }}
               placeholder="Repeat password"
               className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
             />
-            {confirmError && (
-              <p className="mt-1 text-xs text-red-600">{confirmError}</p>
+            {passwordMisMatchError && (
+              <p className="mt-1 text-xs text-red-600">{passwordMisMatchError}</p>
             )}
           </div>
 

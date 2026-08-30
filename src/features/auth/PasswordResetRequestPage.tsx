@@ -6,7 +6,7 @@ import { requestPasswordReset } from "./api";
 import ErrorMessage from "../../components/ErrorMessage";
 import { CheckCircle2 } from "lucide-react";
 
-export default function ForgotPasswordPage() {
+export default function PasswordResetRequestPage() {
   // const navigate = useNavigate();
   const [email, setEmail] = useState("");
 

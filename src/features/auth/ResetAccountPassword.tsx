@@ -44,8 +44,6 @@ export default function ResetAccountPassword() {
           </h1>
           <p className="text-sm text-gray-600">
             {mutation.data?.message}
-            {/* <br /> */}
-            {/* Please check your inbox (and spam folder). */}
           </p>
           <Link
             to="/login"
@@ -105,7 +103,7 @@ export default function ResetAccountPassword() {
                   type={showPassword ? "text" : "password"}
                   required
                   minLength={6}
-                  autoComplete="new_password"
+                  autoComplete="new-password"
                   value={form.new_password}
                   onChange={update("new_password")}
                   placeholder="At least 6 characters"
@@ -138,7 +136,7 @@ export default function ResetAccountPassword() {
                 type={showPassword ? "text" : "password"}
                 required
                 minLength={6}
-                autoComplete="new_password"
+                autoComplete="new-password"
                 value={form.confirm_new_password}
                 aria-invalid={!!passwordMisMatchError}
                 onChange={(e) => {

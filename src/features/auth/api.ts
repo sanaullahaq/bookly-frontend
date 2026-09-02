@@ -9,22 +9,25 @@ import type {
   UserLogin,
 } from "../../types/users";
 
+const PREFIX = "auth";
+
 // Auth
 export const signup = (data: UserCreate) =>
-  apiClient.post<UserCreateResponse>("/auth/signup", data);
+  apiClient.post<UserCreateResponse>(`/${PREFIX}/signup`, data);
 
 export const login = (data: UserLogin) =>
-  apiClient.post<LoginResponse>("/auth/login", data);
+  apiClient.post<LoginResponse>(`/${PREFIX}/login`, data);
 
-export const logout = () => apiClient.get("/auth/logout");
+export const logout = () => apiClient.get(`/${PREFIX}/logout`);
 
 export const verifyEmail = (token: string) =>
-  apiClient.get(`/auth/verify/${token}`);
+  apiClient.get(`/${PREFIX}/verify/${token}`);
 
 export const requestPasswordReset = (data: PasswordResetRequest) =>
-  apiClient.post("/auth/password-reset-request", data);
+  apiClient.post(`/${PREFIX}/password-reset-request`, data);
 
 export const resetPassword = (token: string, data: PasswordResetConfirm) =>
-  apiClient.post(`/auth/password-reset-confirm/${token}`, data);
+  apiClient.post(`/${PREFIX}/password-reset-confirm/${token}`, data);
 
-export const getCurrentUser = () => apiClient.get<UserDetailOut>("/auth/me");
+export const getCurrentUser = () =>
+  apiClient.get<UserDetailOut>(`/${PREFIX}/me`);

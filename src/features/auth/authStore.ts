@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { UserOut } from "../../types/users";
+import { queryClient } from "../../lib/queryClient";
 
 interface AuthState {
   accessToken: string | null;
@@ -39,7 +40,12 @@ export const useAuthStore = create<AuthState>()(
 
       setUser: (user) => set({ user: user }),
 
-      logout: () => set({ accessToken: null, refreshToken: null, user: null }),
+      logout: () => {
+        queryClient.removeQueries({ queryKey: ["currentUser"] });
+        // removes the cached currentUser info prefix matched by "currentUser" on logout,
+        // this mechanism will avail: stale-cache-after-login-of-another-user 
+        set({ accessToken: null, refreshToken: null, user: null });
+      },
 
       isAuthenticated: () => get().accessToken !== null,
     }),

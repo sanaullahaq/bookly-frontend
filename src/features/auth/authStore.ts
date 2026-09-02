@@ -42,8 +42,7 @@ export const useAuthStore = create<AuthState>()(
 
       logout: () => {
         queryClient.removeQueries({ queryKey: ["currentUser"] });
-        // removes the cached currentUser info prefix matched by "currentUser" on logout,
-        // this mechanism will avail: stale-cache-after-login-of-another-user 
+        // drop every cached ["currentUser", ...] slot on logout — prevents stale-cache-after-login-of-another-user (see §2.2 cache-invalidation note)
         set({ accessToken: null, refreshToken: null, user: null });
       },
 

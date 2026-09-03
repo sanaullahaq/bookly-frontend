@@ -5,6 +5,7 @@ import SignupPage from "./features/auth/SignupPage";
 import VerifyEmailPage from "./features/auth/VerifyEmailPage";
 import PasswordResetRequestPage from "./features/auth/PasswordResetRequestPage";
 import ResetAccountPassword from "./features/auth/ResetAccountPassword";
+import BooksListPage from "./features/books/BooksListPage";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: "/api/v1/auth/password-reset-confirm/:token",
         element: <ResetAccountPassword />,
+      },
+      {
+        path: "/books",
+        element: <BooksListPage />,
       },
     ],
   },

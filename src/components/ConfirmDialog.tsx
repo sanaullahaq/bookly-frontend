@@ -34,6 +34,16 @@ export default function ConfirmDialog({
     if (open) confirmRef.current?.focus();
   }, [open]);
 
+  // Cancel the dialog on pressing "esc"
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onCancel();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open, onCancel]);
+
   if (!open) return null;
 
   return (

@@ -34,5 +34,4 @@ export interface BookOut extends BookBase {
 
 export interface BookDetailOut extends BookOut {
   reviews: ReviewOut[];
-  tags: TagOut[];
 }

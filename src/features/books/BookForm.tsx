@@ -66,6 +66,7 @@ export default function BookForm({
 
     if (!Number.isInteger(pageCount) || pageCount <= 0) {
       setValidationError("Page count must be a positive integer");
+      return
     }
 
     setValidationError(null);

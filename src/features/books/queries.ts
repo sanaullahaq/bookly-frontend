@@ -24,8 +24,10 @@ export const useBook = (uid: string) =>
       return data;
     },
     enabled: !!uid,
+    retry: false, // a 404 here is deterministic (book deleted/not found) — retrying won't fix it
   });
 
+// Mutations will be called with mutateAsync
 export const useCreateBook = () => {
   const qc = useQueryClient();
   return useMutation({
@@ -39,8 +41,8 @@ export const useUpdateBook = (uid: string) => {
   return useMutation({
     mutationFn: (data: BookUpdate) => updateBook(uid, data),
     onSuccess: () => {
-      (qc.invalidateQueries({ queryKey: bookKeys.all }),
-        qc.invalidateQueries({ queryKey: bookKeys.detail(uid) }));
+      qc.invalidateQueries({ queryKey: bookKeys.all });
+      qc.invalidateQueries({ queryKey: bookKeys.detail(uid) });
     },
   });
 };
@@ -49,6 +51,10 @@ export const useDeleteBook = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (uid: string) => deleteBook(uid),
-    onSuccess: () => qc.invalidateQueries({ queryKey: bookKeys.all }),
+    // refetchType: "none" marks matched queries stale WITHOUT fetching them.
+    // We're still on the detail page when this fires, so refetching the just-deleted
+    // ["books", uid] would 404 for no value; the list refetches on next mount anyway.
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: bookKeys.all, refetchType: "none" }),
   });
 };

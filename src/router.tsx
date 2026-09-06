@@ -6,13 +6,17 @@ import VerifyEmailPage from "./features/auth/VerifyEmailPage";
 import PasswordResetRequestPage from "./features/auth/PasswordResetRequestPage";
 import ResetAccountPassword from "./features/auth/ResetAccountPassword";
 import BooksListPage from "./features/books/BooksListPage";
+import BookDetailPage from "./features/books/BookDetailPage";
+import BookForm from "./features/books/BookForm";
+import ProtectedRoute from "./components/ProtectedRoute";
+import BookEditPage from "./features/books/BookEditPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      // Routes added in Phase 2
+      // Public auth routes
       { path: "login", element: <LoginPage /> },
       { path: "signup", element: <SignupPage /> },
       { path: "/api/v1/auth/verify/:token", element: <VerifyEmailPage /> },
@@ -21,9 +25,16 @@ export const router = createBrowserRouter([
         path: "/api/v1/auth/password-reset-confirm/:token",
         element: <ResetAccountPassword />,
       },
+
+      //Protected books routes
       {
-        path: "/books",
-        element: <BooksListPage />,
+        element: <ProtectedRoute />,
+        children: [
+          { path: "/books", element: <BooksListPage /> },
+          { path: "/books/new", element: <BookForm mode="create" /> },
+          { path: "/books/:uid", element: <BookDetailPage /> },
+          { path: "/books/:uid/edit", element: <BookEditPage /> },
+        ],
       },
     ],
   },

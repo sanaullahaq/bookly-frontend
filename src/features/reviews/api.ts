@@ -9,7 +9,7 @@ export const getReviews = () => apiClient.get<ReviewOut[]>(`/${PREFIX}/`);
 export const getReview = (uid: string) =>
   apiClient.get<ReviewOut>(`/${PREFIX}/${uid}`);
 
-export const addReviewToBooks = (book_uid: string, review_data: ReviewCreate) =>
+export const addReview = (book_uid: string, review_data: ReviewCreate) =>
   apiClient.post<ReviewOut>(`${PREFIX}/book/${book_uid}`, review_data);
 
 export const deleteReview = (uid: string) =>

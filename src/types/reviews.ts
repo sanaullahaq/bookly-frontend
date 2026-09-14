@@ -12,4 +12,5 @@ export interface ReviewOut extends ReviewBase {
   updated_at: string;
 }
 
-export interface ReviewCreate extends ReviewBase {}
+export type ReviewCreate = ReviewBase;
+// ReviewCreate is nothing but ReviewBase

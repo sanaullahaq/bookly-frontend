@@ -1,4 +1,5 @@
 // --- Reviews ---
+export const RATE_LIMIT: number = 5;
 
 export interface ReviewBase {
   rating: number;

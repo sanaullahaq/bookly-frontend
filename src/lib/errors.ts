@@ -14,6 +14,14 @@ export function parseApiError(error: unknown): ApiErrorPayload {
       return data as ApiErrorPayload;
     }
   }
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    "error_code" in error
+  ) {
+    return error as ApiErrorPayload;
+  }
   return {
     message: "An unexpected error occurred",
     error_code: "unknown",

@@ -5,6 +5,9 @@ import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 import ConfirmDialog from "../../components/ConfirmDialog";
+import ReviewList from "../reviews/ReviewList";
+import ReviewForm from "../reviews/ReviewForm";
+import TagChips from "../tags/TagChips";
 
 export default function BookDetailPage() {
   const { uid } = useParams<{ uid: string }>();
@@ -80,9 +83,9 @@ export default function BookDetailPage() {
           {book.published_date}
         </p>
       </div>
-      {/* -- Phase 4: <TagChips bookUid={uid} tags={book.tags} /> -- */}
-      {/* -- Phase 4: <ReviewList reviews={book.reviews} -- /> */}
-      {/* -- Phase 4: <ReviewForm bookUid={uid} /> -- */}
+      <TagChips tags={book.tags} />
+      <ReviewList bookUid={uid} reviews={book.reviews} />
+      <ReviewForm bookUid={uid} />
 
       <ConfirmDialog
         open={showDeleteConfirmDialog}

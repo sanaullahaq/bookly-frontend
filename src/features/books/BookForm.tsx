@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import type { BookCreate, BookUpdate } from "../../types/books";
 import { useState, type ChangeEvent, type SyntheticEvent } from "react";
-import { useCreateBook, useUpdateBook } from "./queries";
+import { useBookInfoViaAgent, useCreateBook, useUpdateBook } from "./queries";
 import ErrorMessage from "../../components/ErrorMessage";
+import { Sparkles } from "lucide-react";
 
 export default function BookForm({
   mode,
@@ -28,6 +29,7 @@ export default function BookForm({
   const createMutation = useCreateBook();
   const updateMutation = useUpdateBook(bookUid ?? "");
   const mutation = mode === "create" ? createMutation : updateMutation;
+  const aiMutation = useBookInfoViaAgent();
 
   function castCreate(): BookCreate {
     return {
@@ -54,6 +56,19 @@ export default function BookForm({
       setForm((f) => ({ ...f, [field]: e.target.value }));
   }
 
+  async function handleFillViaAI() {
+    const info = await aiMutation.mutateAsync(form.title.trim());
+    setForm((f) => ({
+      ...f, // keeps every field with current value. Then update each one-by-one as code executes below
+      title: f.title,
+      author: info.author,
+      publisher: info.publisher ?? "",
+      page_count: info.page_count?.toString() ?? "",
+      language: info.language ?? "",
+      published_date: info.published_date ?? "",
+    }));
+  }
+
   async function handleSubmit(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -66,7 +81,7 @@ export default function BookForm({
 
     if (!Number.isInteger(pageCount) || pageCount <= 0) {
       setValidationError("Page count must be a positive integer");
-      return
+      return;
     }
 
     setValidationError(null);
@@ -96,9 +111,11 @@ export default function BookForm({
         {mode === "create" ? "Create Book" : "Edit Book"}
       </h1>
 
-      {mutation.isError && (
-        <div className="mb-4">
-          <ErrorMessage error={mutation.error} />
+      {(mutation.isError || aiMutation.isError) && (
+        <div className="mb-4 text-center">
+          <ErrorMessage
+            error={mutation.isError ? mutation.error : aiMutation.error}
+          />
         </div>
       )}
       {validationError && (
@@ -122,12 +139,26 @@ export default function BookForm({
             <label className="block text-sm font-medium text-gray-700">
               {label}
             </label>
-            <input
-              value={form[field]}
-              onChange={update(field)}
-              required
-              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
-            />
+            <div className="mt-1 flex items-center gap-2">
+              <input
+                value={form[field]}
+                onChange={update(field)}
+                required
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+              />
+              {field === "title" && form.title.trim() && (
+                <button
+                  type="button"
+                  onClick={handleFillViaAI}
+                  disabled={mutation.isPending || aiMutation.isPending}
+                  aria-busy={aiMutation.isPending}
+                  className="mt-1 flex items-center gap-1 rounded-md border border-purple-300 px-3 py-1.5 text-xs font-semibold text-purple-700 hover:bg-purple-50 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Sparkles size={14} />
+                  {aiMutation.isPending ? "Fetching…" : "Fill via AI"}
+                </button>
+              )}
+            </div>
           </div>
         ))}
         <div>

@@ -2,6 +2,7 @@ import apiClient from "../../lib/apiClient";
 import type {
   BookCreate,
   BookDetailOut,
+  BookInfoOut,
   BookOut,
   BookUpdate,
 } from "../../types/books";
@@ -22,3 +23,8 @@ export const updateBook = (uid: string, data: BookUpdate) =>
 
 export const deleteBook = (uid: string) =>
   apiClient.delete(`/${PREFIX}/${uid}`); // return 204, no body
+
+export const getBookInfoViaAgent = (title: string) =>
+  apiClient.get<BookInfoOut>(
+    `/${PREFIX}/agent/get_book/${encodeURIComponent(title)}`,
+  );

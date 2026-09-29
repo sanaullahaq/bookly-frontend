@@ -1,5 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createBook, deleteBook, getBook, getBooks, updateBook } from "./api";
+import {
+  createBook,
+  deleteBook,
+  getBook,
+  getBookInfoViaAgent,
+  getBooks,
+  updateBook,
+} from "./api";
 import type { BookCreate, BookUpdate } from "../../types/books";
 
 export const bookKeys = {
@@ -56,5 +63,16 @@ export const useDeleteBook = () => {
     // ["books", uid] would 404 for no value; the list refetches on next mount anyway.
     onSuccess: () =>
       qc.invalidateQueries({ queryKey: bookKeys.all, refetchType: "none" }),
+  });
+};
+
+// Agent prefill: flat-unwrapped; result only populates the BookForm once,
+// so it is NOT stored in the cache and nothing is invalidated on success.
+export const useBookInfoViaAgent = () => {
+  return useMutation({
+    mutationFn: async (title: string) => {
+      const { data } = await getBookInfoViaAgent(title);
+      return data;
+    },
   });
 };

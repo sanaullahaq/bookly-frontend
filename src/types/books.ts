@@ -35,3 +35,14 @@ export interface BookOut extends BookBase {
 export interface BookDetailOut extends BookOut {
   reviews: ReviewOut[];
 }
+
+// --- Agent prefill (GET /books/agent/get_book/{title}) ---
+// Only title/author are guaranteed; the rest are nullable (agent may miss them).
+export interface BookInfoOut {
+  title: string;
+  author: string;
+  publisher?: string | null;
+  page_count?: number | null;
+  language?: string | null;
+  published_date?: string | null; // "YYYY-MM-DD"
+}

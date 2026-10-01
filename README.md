@@ -71,3 +71,33 @@ npm run preview
 Basic flow after login: the app redirects unauthenticated visits to `/login`; book management lives under `/books`. API endpoints are rooted at `VITE_API_BASE_URL` (e.g. `/auth/login`, `GET /books/`).
 
 **Tests**: TODO — no test framework or test script is configured in `package.json`.
+
+## Project Structure
+
+```
+src/
+├── components/     # Shared UI: Layout, NavBar, ProtectedRoute, Loading,
+│                   # ErrorMessage, ConfirmDialog
+├── features/       # One folder per domain
+│   ├── auth/       # api.ts, queries.ts, authStore.ts, useAuth.ts, *Page.tsx
+│   ├── books/      # api.ts, queries.ts, BooksListPage, BookDetailPage,
+│   │               # BookForm (shared create/edit), BookEditPage
+│   ├── reviews/    # api.ts, queries.ts, ReviewList, ReviewForm
+│   └── tags/       # api.ts, queries.ts, TagChips, TagEditor
+├── lib/            # apiClient (auth interceptor), errors, queryClient
+├── types/          # Per-domain types mirroring the backend Pydantic schemas
+└── router.tsx      # createBrowserRouter config
+```
+
+## Features
+
+### Tags
+
+Tags are **global** backend rows joined to books by a `BookTag` link, which shapes the UI into two separate pieces:
+
+- `<TagChips />` — display-only pills rendered on `/books` list cards. Returns `null` when a book has no tags.
+- `<TagEditor />` — the interactive add/remove card on `/books/:uid`. Removing a tag there is a **per-book unpin** (`DELETE /tags/book/{book_uid}/tags/{tag_uid}`), so the tag itself stays in the database and remains attached to any other book. The frontend has no route or button for the global `DELETE /tags/{uid}`.
+
+Adding a tag takes free text plus a native `<datalist>` of every existing tag name, so typing a new name and picking an existing one go through the same single request (the backend find-or-creates). Add is disabled on empty input or when the trimmed name already matches a chip; both guards run client-side, so an invalid submit makes no network call. Remove needs no confirmation dialog since it is trivially reversible by re-adding.
+
+Each chip's remove `×` is hidden at rest and appears on chip hover **and** keyboard focus, positioned absolutely at the chip's top-right corner so revealing it never reflows the chip or covers the tag name.

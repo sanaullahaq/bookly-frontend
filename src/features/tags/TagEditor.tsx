@@ -70,7 +70,7 @@ export default function TagEditor({
         {tags.map((tag) => (
           <span
             key={tag.uid}
-            className="inline-flex items-center gap-1 rounded-full bg-purple-100 px-2 py-0.5 text-xs text-purple-700"
+            className="group relative inline-flex items-center rounded-full bg-purple-100 py-0.5 pl-2 pr-2 text-xs text-purple-700"
           >
             {tag.name}
             <button
@@ -78,7 +78,7 @@ export default function TagEditor({
               onClick={() => handleRemove(tag.uid)}
               disabled={removeMutation.isPending}
               aria-label={`Remove tag ${tag.name}`}
-              className="rounded-full hover:bg-purple-200 disabled:cursor-not-allowed disabled:opacity-50"
+              className="absolute -right-1 -top-1 rounded-full bg-white p-1 opacity-0 transition-opacity duration-150 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-purple-200 hover:text-purple-800 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <X size={12} />
             </button>

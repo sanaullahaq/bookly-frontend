@@ -19,6 +19,8 @@ export default function TagEditor({
 
   const name = newTag.trim();
   const alreadyAttached = tags.some((t) => t.name === name);
+  // checks whether at least one element in an array passes a specific test implemented by a provided callback function.
+  // It evaluates the array elements and immediately returns a boolean (true or false).
 
   async function handleAdd(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -100,6 +102,9 @@ export default function TagEditor({
             .map((t) => (
               <option key={t.uid} value={t.name} />
             ))}
+            {/* - Already attached (saved in db) tags to the book are being compared to the entire list of tags from db.
+                - if true then it becomes false by negating (!) thus filtering out from being mapped as an <option />
+            */}
         </datalist>
         <button
           type="submit"

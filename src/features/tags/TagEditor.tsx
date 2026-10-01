@@ -1,6 +1,6 @@
 import { useState, type SyntheticEvent } from "react";
 import type { TagAdd, TagCreate, TagOut } from "../../types/tags";
-import { useAddTagsToBook, useRemoveTagFromBook, useTags } from "./quries";
+import { useAddTagsToBook, useRemoveTagFromBook, useTags } from "./queries";
 import ErrorMessage from "../../components/ErrorMessage";
 import { X } from "lucide-react";
 

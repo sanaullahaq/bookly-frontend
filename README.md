@@ -15,7 +15,7 @@ Bookly lets users create an account and manage a catalog of books (title, author
 - **Data / State**: TanStack Query v5 (server state + caching), Zustand 5 with `persist` (auth state, `localStorage` key `bookly-auth`)
 - **HTTP**: Axios (`src/lib/apiClient.ts`, auto-attaches Bearer token and refreshes on 401)
 - **Other**: lucide-react (icons)
-- **Tooling**: ESLint 10 + typescript-eslint, no dedicated test framework
+- **Tooling**: ESLint 10 + typescript-eslint, Vitest 5 + Testing Library + MSW 2 (tests)
 
 ## Setup
 
@@ -68,9 +68,39 @@ Preview a production build:
 npm run preview
 ```
 
+Run the full suite (single pass, jsdom environment):
+
+```bash
+npm test
+```
+
+Run tests in watch mode while developing:
+
+```bash
+npm run test:watch
+```
+
+Run tests with a coverage report (V8 provider, text + HTML output in `coverage/`):
+
+```bash
+npm run test:coverage
+```
+
 Basic flow after login: the app redirects unauthenticated visits to `/login`; book management lives under `/books`. API endpoints are rooted at `VITE_API_BASE_URL` (e.g. `/auth/login`, `GET /books/`).
 
-**Tests**: TODO — no test framework or test script is configured in `package.json`.
+## Tests
+
+Component and unit tests use Vitest 5 with Testing Library (React, jest-dom matchers, user-event) and MSW 2 for request mocking.
+
+- **Config**: the `test` block lives in `vite.config.ts` (jsdom environment, `globals: true`, `setupFiles: ./src/test/setup.ts`, V8 coverage).
+- **`src/test/setup.ts`**: loads jest-dom matchers, starts the MSW server, and does `resetHandlers()` + RTL `cleanup()` after each test. `onUnhandledRequest: "error"` means an unmocked request fails the test instead of hitting the network.
+- **`src/test/server.ts`**: the shared `setupServer(...handlers)` instance.
+- **`src/test/utils.tsx`**: `renderWithProviders` — wraps a subject in `MemoryRouter` + a fresh `QueryClient` (caching and retries disabled) so tests stay isolated.
+- **`src/test/mocks/handlers.ts`**: default MSW handlers, rooted at `import.meta.env.VITE_API_BASE_URL`. Override per-test with `server.use(http.get(...))` after `server.resetHandlers()`.
+- **Test files**: co-located in `src/features/<feature>/__tests__/` next to the code they cover.
+- **Typing**: test files are excluded from `tsconfig.app.json` (so `tsc -b` never checks them) and type-checked through the separate `tsconfig.vitest.json` project, which adds `vitest/globals` and `@testing-library/jest-dom` types.
+
+Tests need no backend, database, Redis, or Celery — MSW intercepts every HTTP call, so the suite runs fully offline.
 
 ## Project Structure
 
@@ -86,6 +116,7 @@ src/
 │   └── tags/       # api.ts, queries.ts, TagChips, TagEditor
 ├── lib/            # apiClient (auth interceptor), errors, queryClient
 ├── types/          # Per-domain types mirroring the backend Pydantic schemas
+├── test/           # Vitest harness: setup.ts, server.ts, utils.tsx, mocks/
 └── router.tsx      # createBrowserRouter config
 ```
 

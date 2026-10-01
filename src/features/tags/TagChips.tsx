@@ -3,7 +3,7 @@ import type { TagOut } from "../../types/tags";
 export default function TagChips({ tags }: { tags: TagOut[] }) {
   if (tags.length === 0) return null;
   return (
-    <div className="flex flex-wrap gap-1">
+    <div className="mt-3 flex flex-wrap gap-1">
       {tags.map((tag) => (
         <span
           key={tag.uid}
@@ -15,3 +15,6 @@ export default function TagChips({ tags }: { tags: TagOut[] }) {
     </div>
   );
 }
+
+// Add Tag to a book, tag already existed
+// Remove a tag from a book but keep it in the db

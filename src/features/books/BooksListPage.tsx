@@ -3,6 +3,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
 import { useBooks } from "./queries";
 import { Plus } from "lucide-react";
+import TagChips from "../tags/TagChips";
 
 export default function BooksListPage() {
   const { data: books, isLoading, isError, error } = useBooks();
@@ -40,16 +41,7 @@ export default function BooksListPage() {
                 {book.publisher} · {book.language}
               </p>
               {book.tags.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1">
-                  {book.tags.map((tag) => (
-                    <span
-                      key={tag.uid}
-                      className="rounded-full bg-purple-100 px-2 py-0.5 text-xs text-purple-700"
-                    >
-                      {tag.name}
-                    </span>
-                  ))}
-                </div>
+                <TagChips tags={book.tags} />
               )}
             </Link>
           ))}

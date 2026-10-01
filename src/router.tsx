@@ -10,11 +10,14 @@ import BookDetailPage from "./features/books/BookDetailPage";
 import BookForm from "./features/books/BookForm";
 import ProtectedRoute from "./components/ProtectedRoute";
 import BookEditPage from "./features/books/BookEditPage";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { ErrorThrower } from "./features/debug/ErrorThrower";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorBoundary />,
     children: [
       // Public auth routes
       { path: "login", element: <LoginPage /> },
@@ -25,6 +28,7 @@ export const router = createBrowserRouter([
         path: "/api/v1/auth/password-reset-confirm/:token",
         element: <ResetAccountPassword />,
       },
+      { path: "test-error", element: <ErrorThrower /> },
 
       //Protected books routes
       {

@@ -7,7 +7,6 @@ import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import ReviewList from "../reviews/ReviewList";
 import ReviewForm from "../reviews/ReviewForm";
-import TagChips from "../tags/TagChips";
 import TagEditor from "../tags/TagEditor";
 
 export default function BookDetailPage() {
@@ -84,8 +83,7 @@ export default function BookDetailPage() {
           {book.published_date}
         </p>
       </div>
-      {/* <TagChips tags={book.tags} /> */}
-      <TagEditor bookUid={book.uid} tags={book.tags} />
+      <TagEditor bookUid={uid} tags={book.tags} />
       <ReviewList bookUid={uid} reviews={book.reviews} />
       <ReviewForm bookUid={uid} />
 

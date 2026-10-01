@@ -1,0 +1,9 @@
+// tsconfig.test.json (new)
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
+    "noEmit": true
+  },
+  "include": ["src", "src/test"]
+}

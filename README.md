@@ -22,7 +22,7 @@ Bookly lets users create an account and manage a catalog of books (title, author
 1. Clone the repo:
 
 ```bash
-git clone <repo-url> bookly-frontend
+git clone https://github.com/sanaullahaq/bookly-frontend.git bookly-frontend
 cd bookly-frontend
 ```
 
